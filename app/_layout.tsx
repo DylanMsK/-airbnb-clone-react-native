@@ -85,7 +85,7 @@ function RootLayoutNav() {
   }, [isLoaded]);
 
   return (
-    <Stack>
+    <Stack screenOptions={{ headerBackButtonDisplayMode: "minimal" }}>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen
         name="(modals)/login"
@@ -100,7 +100,8 @@ function RootLayoutNav() {
           ),
         }}
       />
-      <Stack.Screen name="listing/[id]" options={{ headerTitle: "" }} />
+
+      <Stack.Screen name="listing/[id]" options={{ headerTitle: "", headerTransparent: true }} />
       <Stack.Screen
         name="(modals)/booking"
         options={{
