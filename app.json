@@ -14,12 +14,21 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.example.airbnb",
+      "config": {
+        "googleMapsApiKey": "AIzaSyDUF-aCoECiJShDPVWPRrSsMdCY_gYHksU"
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
+      },
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyDUF-aCoECiJShDPVWPRrSsMdCY_gYHksU"
+        }
       }
     },
     "web": {
