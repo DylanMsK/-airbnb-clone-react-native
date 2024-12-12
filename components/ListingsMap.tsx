@@ -1,9 +1,10 @@
 import { View, Text, StyleSheet } from "react-native";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { ListingGeo } from "@/interfaces/listingGeo";
 import { useRouter } from "expo-router";
 import MapView from "react-native-map-clustering";
+import { defaultStyles } from "@/constants/Styles";
 
 interface Props {
   listings: any;
@@ -18,9 +19,11 @@ const INITIAL_REGION = {
 
 const ListingsMap = ({ listings }: Props) => {
   const router = useRouter();
+  const mapRef = useRef<any>(null);
 
-  const onMarkerSelected = (item: ListingGeo) => {
-    router.push(`/listing/${item.properties.id}`);
+  // When a marker is selected, navigate to the listing page
+  const onMarkerSelected = (event: any) => {
+    router.push(`/listing/${event.properties.id}`);
   };
 
   const renderCluster = (cluster: any) => {
@@ -40,32 +43,33 @@ const ListingsMap = ({ listings }: Props) => {
   };
 
   return (
-    <View style={styles.container}>
-      <MapView
-        animationEnabled={false}
-        style={StyleSheet.absoluteFillObject}
-        provider={PROVIDER_GOOGLE}
-        showsUserLocation
-        showsMyLocationButton
-        initialRegion={INITIAL_REGION}
-        clusterColor="#fff"
-        clusterTextColor="#000"
-        clusterFontFamily="mon-sb"
-        renderCluster={renderCluster}
-      >
-        {listings.features.map((item: ListingGeo) => (
-          <Marker
-            coordinate={{ latitude: +item.properties.latitude, longitude: +item.properties.longitude }}
-            key={item.properties.id}
-            onPress={() => onMarkerSelected(item)}
-          >
-            <View style={styles.marker}>
-              <Text style={styles.markerText}>$ {item.properties.price}</Text>
-            </View>
-          </Marker>
-        ))}
-      </MapView>
-    </View>
+    // <View style={styles.container}>
+    <MapView
+      ref={mapRef}
+      animationEnabled={false}
+      style={StyleSheet.absoluteFill}
+      provider={PROVIDER_GOOGLE}
+      showsUserLocation
+      showsMyLocationButton
+      initialRegion={INITIAL_REGION}
+      clusterColor="#fff"
+      clusterTextColor="#000"
+      clusterFontFamily="mon-sb"
+      renderCluster={renderCluster}
+    >
+      {listings.features.map((item: ListingGeo) => (
+        <Marker
+          coordinate={{ latitude: +item.properties.latitude, longitude: +item.properties.longitude }}
+          key={item.properties.id}
+          onPress={() => onMarkerSelected(item)}
+        >
+          <View style={styles.marker}>
+            <Text style={styles.markerText}>$ {item.properties.price}</Text>
+          </View>
+        </Marker>
+      ))}
+    </MapView>
+    // </View>
   );
 };
 
